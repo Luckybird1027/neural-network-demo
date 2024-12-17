@@ -5,6 +5,14 @@ package com.luckybird;
  */
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        // 数据预处理
+
+        // 初始化模型
+
+        // 训练模型
+
+        // 保存模型
+
+        // 测试模型
     }
 }
