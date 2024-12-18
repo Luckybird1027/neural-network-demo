@@ -1,0 +1,42 @@
+[
+  {
+    "imagePath": "dataset/0.png",
+    "trainLabel": 0
+  },
+  {
+    "imagePath": "dataset/1.png",
+    "trainLabel": 1
+  },
+  {
+    "imagePath": "dataset/2.png",
+    "trainLabel": 2
+  },
+  {
+    "imagePath": "dataset/3.png",
+    "trainLabel": 3
+  },
+  {
+    "imagePath": "dataset/4.png",
+    "trainLabel": 4
+  },
+  {
+    "imagePath": "dataset/5.png",
+    "trainLabel": 5
+  },
+  {
+    "imagePath": "dataset/6.png",
+    "trainLabel": 6
+  },
+  {
+    "imagePath": "dataset/7.png",
+    "trainLabel": 7
+  },
+  {
+    "imagePath": "dataset/8.png",
+    "trainLabel": 8
+  },
+  {
+    "imagePath": "dataset/9.png",
+    "trainLabel": 9
+  }
+]

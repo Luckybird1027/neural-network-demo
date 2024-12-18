@@ -6,6 +6,7 @@ import lombok.SneakyThrows;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.List;
@@ -45,7 +46,7 @@ public class Preprocess {
         int[] pixels = new int[EXPECTED_WIDTH * EXPECTED_HEIGHT];
         for (int i = 0; i < EXPECTED_HEIGHT; i++) {
             for (int j = 0; j < EXPECTED_WIDTH; j++) {
-                pixels[i * EXPECTED_HEIGHT + j] = image.getRGB(j, i);
+                pixels[i * EXPECTED_WIDTH + j] = image.getRGB(j, i);
             }
         }
         return pixels;
@@ -105,9 +106,9 @@ public class Preprocess {
     @SneakyThrows
     private static BufferedImage getImage(File file) {
         BufferedImage image = ImageIO.read(file);
-        if (image.getType() != BufferedImage.TYPE_BYTE_GRAY) {
-            throw new RuntimeException("图片不是灰度图");
-        }
+//        if (image.getType() != BufferedImage.TYPE_BYTE_GRAY) {
+//            throw new RuntimeException("图片不是灰度图");
+//        }
         if (image.getWidth() != EXPECTED_WIDTH || image.getHeight() != EXPECTED_HEIGHT) {
             throw new RuntimeException("图片尺寸不符合预期,期望尺寸为" + EXPECTED_WIDTH + "x" + EXPECTED_HEIGHT);
         }
@@ -123,11 +124,22 @@ public class Preprocess {
     @SneakyThrows
     private static List<LabelMapping> readFile2LabelMapping(String fileName) {
         Gson gson = new Gson();
-        FileReader fileReader = new FileReader(DATASET_PATH + fileName);
-        String jsonStr = fileReader.toString();
-        fileReader.close();
-        return gson.fromJson(jsonStr, new TypeToken<List<LabelMapping>>() {
-        }.getType());
+        String filePath = DATASET_PATH + fileName;
+        List<LabelMapping> labelMappings;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line).append("\n");
+            }
+            String jsonStr = sb.toString();
+            System.out.println(jsonStr);
+            labelMappings = gson.fromJson(jsonStr, new TypeToken<List<LabelMapping>>() {
+            }.getType());
+        }
+
+        return labelMappings;
     }
 
     /**
@@ -140,6 +152,8 @@ public class Preprocess {
         List<LabelMapping> labelMappings = readFile2LabelMapping(fileName);
         ProcessedData processedData = new ProcessedData();
         int size = labelMappings.size();
+        processedData.setTrainData(new double[size][EXPECTED_WIDTH * EXPECTED_HEIGHT]);
+        processedData.setTrainLabels(new int[size][10]);
         for (int i = 0; i < size; i++) {
             LabelMapping labelMapping = labelMappings.get(i);
             int[] pixels = image2Array(labelMapping.getImagePath());

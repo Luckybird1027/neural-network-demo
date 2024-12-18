@@ -1,6 +1,7 @@
 package com.luckybird;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.SneakyThrows;
 
 import java.io.FileReader;
@@ -18,82 +19,82 @@ public class Model {
     /**
      * 输入层大小
      */
-    final int INPUT_SIZE = 384;
+    private final int INPUT_SIZE = 384;
 
     /**
      * 隐藏层大小
      */
-    final int HIDDEN_SIZE = 128;
+    private final int HIDDEN_SIZE = 128;
 
     /**
      * 输出层大小
      */
-    final int OUTPUT_SIZE = 10;
+    private final int OUTPUT_SIZE = 10;
 
     /**
      * 学习率
      */
-    final double LEARNING_RATE = 0.03f;
+    private final double LEARNING_RATE = 0.01f;
 
     /**
      * 目标迭代次数
      */
-    final int TARGET_EPOCH = 10;
+    private final int TARGET_EPOCH = 100;
 
     /**
      * 激活函数类型
      */
-    final ActivationFunctionEnum ACTIVATION_FUNCTION = ActivationFunctionEnum.RELU;
+    private final ActivationFunctionEnum ACTIVATION_FUNCTION = ActivationFunctionEnum.RELU;
 
     /**
      * 模型保存路径
      */
-    static final String MODEL_PATH = "model";
+    private static final String MODEL_PATH = "model";
 
     /**
      * 输入层参数数组
      */
-    double[] inputLayer;
+    private double[] inputLayer;
 
     /**
      * 输入层到隐藏层的权重矩阵数组
      */
-    double[][] inputHiddenWeights;
+    private double[][] inputHiddenWeights;
 
     /**
      * 输入层到隐藏层的偏置量
      */
-    double inputHiddenBias;
+    private double inputHiddenBias;
 
     /**
      * 隐藏层参数数组
      */
-    double[] hiddenLayer;
+    private double[] hiddenLayer;
 
     /**
      * 隐藏层到输出层的权重矩阵数组
      */
-    double[][] hiddenOutputWeights;
+    private double[][] hiddenOutputWeights;
 
     /**
      * 隐藏层到输出层的偏置量
      */
-    double hiddenOutputBias;
+    private double hiddenOutputBias;
 
     /**
      * 输出层参数数组
      */
-    double[] outputLayer;
+    private double[] outputLayer;
 
     /**
      * 已完成迭代次数
      */
-    int completedEpoch = 0;
+    private int completedEpoch = 0;
 
     /**
      * 是否已经初始化模型参数
      */
-    boolean initialized = false;
+    private boolean initialized = false;
 
 
     public Model() {
@@ -124,6 +125,7 @@ public class Model {
                 hiddenOutputWeights[i][j] = std2 * Math.random();
             }
         }
+        initialized = true;
         System.out.println("模型参数初始化完成");
     }
 
@@ -275,13 +277,14 @@ public class Model {
      */
     @SneakyThrows
     void saveModel2Json(String fileName) {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String modelJson = gson.toJson(this);
         if (!fileName.endsWith(".json")) {
             fileName += ".json";
         }
-        FileWriter fileWriter = new FileWriter(MODEL_PATH + fileName);
+        FileWriter fileWriter = new FileWriter(MODEL_PATH + "/" + fileName);
         fileWriter.write(modelJson);
+        fileWriter.flush();
         fileWriter.close();
         System.out.println("模型已保存到文件：" + fileName);
     }
