@@ -1,5 +1,11 @@
 package com.luckybird;
 
+import com.google.gson.Gson;
+import lombok.SneakyThrows;
+
+import java.io.FileReader;
+import java.io.FileWriter;
+
 /**
  * 前馈神经网络模型
  * <p>
@@ -30,9 +36,19 @@ public class Model {
     final double LEARNING_RATE = 0.03f;
 
     /**
+     * 目标迭代次数
+     */
+    final int TARGET_EPOCH = 10;
+
+    /**
      * 激活函数类型
      */
     final ActivationFunctionEnum ACTIVATION_FUNCTION = ActivationFunctionEnum.RELU;
+
+    /**
+     * 模型保存路径
+     */
+    static final String MODEL_PATH = "model";
 
     /**
      * 输入层参数数组
@@ -69,6 +85,17 @@ public class Model {
      */
     double[] outputLayer;
 
+    /**
+     * 已完成迭代次数
+     */
+    int completedEpoch = 0;
+
+    /**
+     * 是否已经初始化模型参数
+     */
+    boolean initialized = false;
+
+
     public Model() {
         inputLayer = new double[INPUT_SIZE];
         inputHiddenWeights = new double[INPUT_SIZE][HIDDEN_SIZE];
@@ -97,15 +124,33 @@ public class Model {
                 hiddenOutputWeights[i][j] = std2 * Math.random();
             }
         }
+        System.out.println("模型参数初始化完成");
     }
 
     /**
-     * 训练一个完整的训练周期
+     * 训练模型
      *
-     * @param trainData   训练数据集，为所有展开后的数组组成的二维数组
-     * @param trainLabels 训练数据集的标签集合，为one-hot编码数组组成的二维数组
+     * @param processedData 训练数据集，包括图像数据和标签集合
      */
-    void trainOneEpoch(int[][] trainData, int[][] trainLabels) {
+    void train(ProcessedData processedData) {
+        if (!initialized) {
+            System.out.println("尚未初始化模型参数，正在进行初始化...");
+            init();
+        }
+        while (completedEpoch < TARGET_EPOCH) {
+            trainOneEpoch(processedData);
+        }
+        System.out.println("模型训练完成");
+    }
+
+    /**
+     * 训练一个迭代周期
+     *
+     * @param processedData 训练数据集，包括图像数据和标签集合
+     */
+    void trainOneEpoch(ProcessedData processedData) {
+        double[][] trainData = processedData.getTrainData();
+        int[][] trainLabels = processedData.getTrainLabels();
         // 检查所有的输入数据和标签是否匹配
         for (int i = 0; i < trainData.length; ++i) {
             if (trainData[i].length != INPUT_SIZE) {
@@ -120,6 +165,8 @@ public class Model {
         for (int i = 0; i < dataCount; ++i) {
             trainOneImage(trainData[i], trainLabels[i]);
         }
+        completedEpoch++;
+        System.out.println("已完成第" + completedEpoch + "次迭代");
     }
 
     /**
@@ -130,11 +177,9 @@ public class Model {
      * @param imageData  图像数据数组，为展开后的数组
      * @param imageLabel 图像标签，为one-hot编码数组
      */
-    void trainOneImage(int[] imageData, int[] imageLabel) {
+    void trainOneImage(double[] imageData, int[] imageLabel) {
         // 将图像数据传入输入层
-        for (int i = 0; i < INPUT_SIZE; ++i) {
-            inputLayer[i] = imageData[i];
-        }
+        System.arraycopy(imageData, 0, inputLayer, 0, INPUT_SIZE);
 
         // 前向传播-计算隐藏层参数
         for (int i = 0; i < HIDDEN_SIZE; ++i) {
@@ -228,24 +273,28 @@ public class Model {
     /**
      * 将模型参数保存为json格式文件，便于后续加载使用
      */
-    void saveModel2Json() {
-
+    @SneakyThrows
+    void saveModel2Json(String fileName) {
+        Gson gson = new Gson();
+        String modelJson = gson.toJson(this);
+        if (!fileName.endsWith(".json")) {
+            fileName += ".json";
+        }
+        FileWriter fileWriter = new FileWriter(MODEL_PATH + fileName);
+        fileWriter.write(modelJson);
+        fileWriter.close();
+        System.out.println("模型已保存到文件：" + fileName);
     }
 
     /**
      * 将json格式文件中的模型参数载入到当前模型对象中
      */
-    void loadModelFromJson() {
-
+    @SneakyThrows
+    static Model loadModelFromJson(String fileName) {
+        Gson gson = new Gson();
+        Model model = gson.fromJson(new FileReader(MODEL_PATH + fileName), Model.class);
+        System.out.println("模型已从文件：" + fileName + " 载入");
+        return model;
     }
-
-    void forward() {
-
-    }
-
-    void backward() {
-
-    }
-
 
 }

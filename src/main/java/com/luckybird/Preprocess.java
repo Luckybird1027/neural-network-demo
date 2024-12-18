@@ -1,10 +1,14 @@
 package com.luckybird;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import lombok.SneakyThrows;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileReader;
+import java.util.List;
 
 /**
  * 图像预处理工具类，用于读取训练图片和标签信息，并将图片和标签转换为模型训练所需的格式
@@ -22,6 +26,11 @@ public class Preprocess {
      * 图片期望高度
      */
     final static int EXPECTED_HEIGHT = 24;
+
+    /**
+     * 数据集路径
+     */
+    static final String DATASET_PATH = "dataset";
 
     /**
      * 读取图片文件，并将图片信息展开为一维信息数组
@@ -103,6 +112,43 @@ public class Preprocess {
             throw new RuntimeException("图片尺寸不符合预期,期望尺寸为" + EXPECTED_WIDTH + "x" + EXPECTED_HEIGHT);
         }
         return image;
+    }
+
+    /**
+     * 读取文件，并将内容转换为LabelMapping对象列表
+     *
+     * @param fileName 文件名
+     * @return LabelMapping对象列表
+     */
+    @SneakyThrows
+    private static List<LabelMapping> readFile2LabelMapping(String fileName) {
+        Gson gson = new Gson();
+        FileReader fileReader = new FileReader(DATASET_PATH + fileName);
+        String jsonStr = fileReader.toString();
+        fileReader.close();
+        return gson.fromJson(jsonStr, new TypeToken<List<LabelMapping>>() {
+        }.getType());
+    }
+
+    /**
+     * 根据数据-标签映射文件，处理数据
+     *
+     * @param fileName 文件名
+     * @return 处理后的数据
+     */
+    public static ProcessedData processData(String fileName) {
+        List<LabelMapping> labelMappings = readFile2LabelMapping(fileName);
+        ProcessedData processedData = new ProcessedData();
+        int size = labelMappings.size();
+        for (int i = 0; i < size; i++) {
+            LabelMapping labelMapping = labelMappings.get(i);
+            int[] pixels = image2Array(labelMapping.getImagePath());
+            double[] standardizationPixels = standardization(pixels);
+            processedData.getTrainData()[i] = standardizationPixels;
+            int[] oneHotLabel = tag2OneHot(labelMapping.getTrainLabel());
+            processedData.getTrainLabels()[i] = oneHotLabel;
+        }
+        return processedData;
     }
 }
 
