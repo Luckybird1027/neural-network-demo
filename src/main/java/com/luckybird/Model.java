@@ -158,8 +158,8 @@ public class Model {
         for (int i = 0; i < OUTPUT_SIZE; ++i) {
             result.put(i, outputLayer[i]);
         }
-        result.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).limit(3).forEachOrdered(
-                entry -> System.out.println("预测为" + entry.getKey() + "的概率为: " + entry.getValue()));
+        result.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).limit(1).forEachOrdered(
+                entry -> System.out.println(imagePath + " 的预测结果为 " + entry.getKey() + "(" + "概率为:" + entry.getValue() + ")"));
     }
 
     /**
