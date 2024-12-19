@@ -1,42 +1,202 @@
 [
   {
-    "imagePath": "dataset/0.png",
+    "imagePath": "dataset/0-1.png",
     "trainLabel": 0
   },
   {
-    "imagePath": "dataset/1.png",
+    "imagePath": "dataset/0-2.png",
+    "trainLabel": 0
+  },
+  {
+    "imagePath": "dataset/0-3.png",
+    "trainLabel": 0
+  },
+  {
+    "imagePath": "dataset/0-4.png",
+    "trainLabel": 0
+  },
+  {
+    "imagePath": "dataset/0-5.png",
+    "trainLabel": 0
+  },
+  {
+    "imagePath": "dataset/1-1.png",
     "trainLabel": 1
   },
   {
-    "imagePath": "dataset/2.png",
+    "imagePath": "dataset/1-2.png",
+    "trainLabel": 1
+  },
+  {
+    "imagePath": "dataset/1-3.png",
+    "trainLabel": 1
+  },
+  {
+    "imagePath": "dataset/1-4.png",
+    "trainLabel": 1
+  },
+  {
+    "imagePath": "dataset/1-5.png",
+    "trainLabel": 1
+  },
+  {
+    "imagePath": "dataset/2-1.png",
     "trainLabel": 2
   },
   {
-    "imagePath": "dataset/3.png",
+    "imagePath": "dataset/2-2.png",
+    "trainLabel": 2
+  },
+  {
+    "imagePath": "dataset/2-3.png",
+    "trainLabel": 2
+  },
+  {
+    "imagePath": "dataset/2-4.png",
+    "trainLabel": 2
+  },
+  {
+    "imagePath": "dataset/2-5.png",
+    "trainLabel": 2
+  },
+  {
+    "imagePath": "dataset/3-1.png",
     "trainLabel": 3
   },
   {
-    "imagePath": "dataset/4.png",
+    "imagePath": "dataset/3-2.png",
+    "trainLabel": 3
+  },
+  {
+    "imagePath": "dataset/3-3.png",
+    "trainLabel": 3
+  },
+  {
+    "imagePath": "dataset/3-4.png",
+    "trainLabel": 3
+  },
+  {
+    "imagePath": "dataset/3-5.png",
+    "trainLabel": 3
+  },
+  {
+    "imagePath": "dataset/4-1.png",
     "trainLabel": 4
   },
   {
-    "imagePath": "dataset/5.png",
+    "imagePath": "dataset/4-2.png",
+    "trainLabel": 4
+  },
+  {
+    "imagePath": "dataset/4-3.png",
+    "trainLabel": 4
+  },
+  {
+    "imagePath": "dataset/4-4.png",
+    "trainLabel": 4
+  },
+  {
+    "imagePath": "dataset/4-5.png",
+    "trainLabel": 4
+  },
+  {
+    "imagePath": "dataset/5-1.png",
     "trainLabel": 5
   },
   {
-    "imagePath": "dataset/6.png",
+    "imagePath": "dataset/5-2.png",
+    "trainLabel": 5
+  },
+  {
+    "imagePath": "dataset/5-3.png",
+    "trainLabel": 5
+  },
+  {
+    "imagePath": "dataset/5-4.png",
+    "trainLabel": 5
+  },
+  {
+    "imagePath": "dataset/5-5.png",
+    "trainLabel": 5
+  },
+  {
+    "imagePath": "dataset/6-1.png",
     "trainLabel": 6
   },
   {
-    "imagePath": "dataset/7.png",
+    "imagePath": "dataset/6-2.png",
+    "trainLabel": 6
+  },
+  {
+    "imagePath": "dataset/6-3.png",
+    "trainLabel": 6
+  },
+  {
+    "imagePath": "dataset/6-4.png",
+    "trainLabel": 6
+  },
+  {
+    "imagePath": "dataset/6-5.png",
+    "trainLabel": 6
+  },
+  {
+    "imagePath": "dataset/7-1.png",
     "trainLabel": 7
   },
   {
-    "imagePath": "dataset/8.png",
+    "imagePath": "dataset/7-2.png",
+    "trainLabel": 7
+  },
+  {
+    "imagePath": "dataset/7-3.png",
+    "trainLabel": 7
+  },
+  {
+    "imagePath": "dataset/7-4.png",
+    "trainLabel": 7
+  },
+  {
+    "imagePath": "dataset/7-5.png",
+    "trainLabel": 7
+  },
+  {
+    "imagePath": "dataset/8-1.png",
     "trainLabel": 8
   },
   {
-    "imagePath": "dataset/9.png",
+    "imagePath": "dataset/8-2.png",
+    "trainLabel": 8
+  },
+  {
+    "imagePath": "dataset/8-3.png",
+    "trainLabel": 8
+  },
+  {
+    "imagePath": "dataset/8-4.png",
+    "trainLabel": 8
+  },
+  {
+    "imagePath": "dataset/8-5.png",
+    "trainLabel": 8
+  },
+  {
+    "imagePath": "dataset/9-1.png",
+    "trainLabel": 9
+  },
+  {
+    "imagePath": "dataset/9-2.png",
+    "trainLabel": 9
+  },
+  {
+    "imagePath": "dataset/9-3.png",
+    "trainLabel": 9
+  },
+  {
+    "imagePath": "dataset/9-4.png",
+    "trainLabel": 9
+  },
+  {
+    "imagePath": "dataset/9-5.png",
     "trainLabel": 9
   }
 ]

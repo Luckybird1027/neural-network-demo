@@ -6,6 +6,9 @@ import lombok.SneakyThrows;
 
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 前馈神经网络模型
@@ -145,6 +148,20 @@ public class Model {
         System.out.println("模型训练完成");
     }
 
+    void predict(String imagePath) {
+        // 读取图像数据，并将其传入模型进行预测
+        int[] rawData = Preprocess.image2Array(imagePath);
+        double[] data = Preprocess.standardization(rawData);
+        System.arraycopy(data, 0, inputLayer, 0, INPUT_SIZE);
+        forwardPropagation();
+        Map<Integer, Double> result = new HashMap<>();
+        for (int i = 0; i < OUTPUT_SIZE; ++i) {
+            result.put(i, outputLayer[i]);
+        }
+        result.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).limit(3).forEachOrdered(
+                entry -> System.out.println("预测为" + entry.getKey() + "的概率为: " + entry.getValue()));
+    }
+
     /**
      * 训练一个迭代周期
      *
@@ -182,7 +199,22 @@ public class Model {
     void trainOneImage(double[] imageData, int[] imageLabel) {
         // 将图像数据传入输入层
         System.arraycopy(imageData, 0, inputLayer, 0, INPUT_SIZE);
+        // 前向传播
+        forwardPropagation();
+        // 计算损失函数，使用交叉熵损失函数
+        double loss = 0;
+        for (int i = 0; i < OUTPUT_SIZE; ++i) {
+            loss += imageLabel[i] * Math.log(outputLayer[i]);
+        }
+        // 反向传播，更新权重和偏置
+        backPropagation(imageLabel);
+        System.out.println("完成一张图片的训练，损失值为：" + loss);
+    }
 
+    /**
+     * 前向传播
+     */
+    private void forwardPropagation() {
         // 前向传播-计算隐藏层参数
         for (int i = 0; i < HIDDEN_SIZE; ++i) {
             hiddenLayer[i] = 0;
@@ -210,13 +242,14 @@ public class Model {
         for (int i = 0; i < OUTPUT_SIZE; ++i) {
             outputLayer[i] = expOutputLayer[i] / sum;
         }
+    }
 
-        // 计算损失函数，使用交叉熵损失函数
-        double loss = 0;
-        for (int i = 0; i < OUTPUT_SIZE; ++i) {
-            loss += imageLabel[i] * Math.log(outputLayer[i]);
-        }
-
+    /**
+     * 反向传播
+     *
+     * @param imageLabel 图像标签，为one-hot编码数组，用于计算损失函数梯度
+     */
+    private void backPropagation(int[] imageLabel) {
         // 反向传播-计算 损失函数 到 隐藏层到输出层的权重梯度和偏置梯度
         double[] loss2outputGradient = new double[OUTPUT_SIZE];
         for (int i = 0; i < OUTPUT_SIZE; ++i) {
@@ -269,7 +302,6 @@ public class Model {
             }
         }
         hiddenOutputBias += LEARNING_RATE * loss2hiddenOutputBiasGradient;
-        System.out.println("完成一张图片的训练，损失值为：" + loss);
     }
 
     /**
@@ -295,7 +327,7 @@ public class Model {
     @SneakyThrows
     static Model loadModelFromJson(String fileName) {
         Gson gson = new Gson();
-        Model model = gson.fromJson(new FileReader(MODEL_PATH + fileName), Model.class);
+        Model model = gson.fromJson(new FileReader(MODEL_PATH + "/" + fileName), Model.class);
         System.out.println("模型已从文件：" + fileName + " 载入");
         return model;
     }
