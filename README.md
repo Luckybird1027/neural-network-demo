@@ -27,7 +27,7 @@
 
   下面是网络的示意图：
 
-  ![nn](\doc\image\nn.svg)
+  ![nn](/doc/image/nn.svg)
 
 
 ## 原理
@@ -80,8 +80,8 @@
 
 训练完成后，您可以使用`Test.java`中的代码对新图像进行预测。预测结果会显示图像的类别及其概率。事实证明，训练的效果良好，能够准确的预测手写体数字图像所表示的数字和概率。
 
-![dataset](\doc\image\dataset.png)
-![result](\doc\image\result.png)
+![dataset](/doc/image/dataset.png)
+![result](/doc/image/result.png)
 
 
 通过这些结果，您可以直观地看到模型在手写体数字识别任务上的表现。
