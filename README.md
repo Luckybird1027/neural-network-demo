@@ -1,87 +1,106 @@
-# Java前馈神经网络手写体数字识别模型
+# Java Feedforward Neural Network Handwritten Digit Recognition Models
 
-一个出于个人学习目的的简易深度学习项目，使用Java实现，不依赖任何现成的深度学习框架。该项目手动构建了一个前馈神经网络模型，专注于手写体0-9数字的分类任务。通过该项目，您可以在任何支持Java的环境中运行并训练模型，验证其在手写体数字识别上的有效性。
+English | [简体中文](README_ZH.md)
 
-## 介绍
+A simple deep learning project for personal learning purposes, implemented in Java and not relying on any off-the-shelf
+deep learning framework. The project manually builds a feed-forward neural network model that focuses on the task of
+classifying handwritten digits 0-9. With this project, you can run and train the model in any Java-enabled environment
+to verify its effectiveness on handwritten digit recognition.
 
-本项目实现了一个简单的前馈神经网络，用于手写体数字识别。
+## Introduction
 
-### 项目特点
+This project implements a simple feed-forward neural network for handwritten digit recognition.
 
-- **无框架依赖**：完全使用Java手动实现神经网络的各个组件。
-- **可扩展性**：可以根据需要调整网络结构和参数。
-- **跨平台**：只要有Java环境即可运行。
+### Project Features
 
-### 模型特点
+- **No framework dependencies**: the components of the neural network are implemented entirely manually using Java.
+- **Extensibility**: the network structure and parameters can be adjusted as needed.
+- **Cross-platform**: It can be run as long as there is a Java environment.
 
-- **输入数据**：图像为单通道灰度图，尺寸为16x24像素。
+### Model Features
 
-- **网络结构**：
-  - **输入层**：包含384个神经元，对应于图像的每个像素。
-  - **隐藏层**：包含128个神经元，使用ReLU激活函数。
-  - **输出层**：包含10个神经元，对应于数字0-9的分类，使用Softmax激活函数。
-  
-- **激活函数**：由`ActivationFunctionEnum`类提供，支持ReLU和Sigmoid两种常用激活函数。
+- **Input data**: the image is a single-channel grayscale map with a size of 16x24 pixels.
 
-- **图像预处理**：由`Preprocess`类完成，将图像转换为一维数组并进行标准化处理，以适应模型的输入要求。
+- **Network structure**:
+    - **Input layer**: contains 384 neurons corresponding to each pixel of the image.
+    - **Hidden layer**: contains 128 neurons, using the ReLU activation function.
+    - **Output layer**: contains 10 neurons corresponding to the categorization of the numbers 0-9, using the Softmax
+      activation function.
 
-  下面是网络的示意图：
+- **Activation function**: provided by `ActivationFunctionEnum` class, supports two common activation functions, ReLU
+  and Sigmoid.
+
+- **Image Preprocessing**: done by the `Preprocess` class, which converts the image into a one-dimensional array and
+  normalizes it to fit the input requirements of the model.
+
+  Below is a schematic of the network:
 
   ![nn](/doc/image/nn.svg)
 
+## Principle
 
-## 原理
+Feedforward Neural Network (FNN) is one of the most basic types of neural networks. Its working principle includes the
+following steps:
 
-前馈神经网络（Feedforward Neural Network）是最基础的神经网络类型之一。其工作原理包括以下几个步骤：
+1. **Feedforward Propagation**: the input data is passed through the layers of the network, processed by the weighting
+   and activation functions in each layer, and finally the prediction result is output.
+2. **Loss Calculation**: the error between the prediction result and the real label is calculated using the
+   cross-entropy loss function.
+3. **Backpropagation**: adjusts the weights and biases of the network to minimize the error by calculating the gradient
+   of the loss function.
+4. **Weight update**: update the network parameters using gradient descent to gradually improve the prediction accuracy
+   of the model.
 
-1. **前向传播**：输入数据通过网络层层传递，经过每层的加权和激活函数处理，最终输出预测结果。
-2. **损失计算**：使用交叉熵损失函数计算预测结果与真实标签之间的误差。
-3. **反向传播**：通过计算损失函数的梯度，调整网络的权重和偏置，以最小化误差。
-4. **权重更新**：使用梯度下降法更新网络参数，逐步提高模型的预测准确性。
+## Experiment
 
-## 实验
+To run this project, follow the steps below:
 
-要运行本项目，请按照以下步骤操作：
-
-1. **克隆项目代码**：
-   首先，通过Git将项目代码克隆到本地。打开命令行终端并执行以下命令：
+1. **Clone the project code**:
+   First, clone the project code locally via Git. Open a command line terminal and execute the following command:
    ```bash
    git clone https://github.com/Luckybird1027/neural-network-demo.git
    ```
 
-2. **进入项目目录**：
+2. **Enter the project directory**:
    ```bash
    cd neural-network-demo
    ```
 
-3. **安装Maven依赖**：
-   确保您的系统上已安装Maven。然后在项目根目录下执行以下命令以安装项目所需的依赖：
+3. **Install Maven dependencies**:
+   Ensure that Maven is installed on your system. then run the following command in the project root directory to
+   install the dependencies required by the project:
    ```bash
    mvn clean install
    ```
 
-4. **训练模型**：
-   运行`Train.java`以训练模型。您可以在IDE中运行此文件，或者使用以下命令在命令行中运行：
-   
+4. **Train the model**:
+   Run `Train.java` to train the model. You can run this file in the IDE or from the command line using the following
+   command:
+
    ```bash
-   mvn exec:java -Dexec.mainClass="com.luckybird.Train"
+   mvn exec:java -Dexec.mainClass="com.luckybird.Train”
    ```
-   训练完成后，模型会被保存为JSON格式文件。
-   
-5. **测试模型**：
-   运行`Test.java`以使用训练好的模型进行预测。您可以在IDE中运行此文件，或者使用以下命令在命令行中运行：
+   After training is complete, the model is saved as a JSON file.
+
+5. **Test the model**:
+   Run `Test.java` to make predictions using the trained model. You can run this file in the IDE or from the command
+   line using the following command:
    ```bash
-   mvn exec:java -Dexec.mainClass="com.luckybird.Test"
+   mvn exec:java -Dexec.mainClass="com.luckybird.Test”
    ```
 
-通过这些步骤，您可以在本地环境中运行和测试该项目，体验手写体数字识别的完整流程。
+With these steps, you can run and test the project in your local environment to experience the complete process of
+handwriting digit recognition.
 
-## 结果
+## Results
 
-训练完成后，您可以使用`Test.java`中的代码对新图像进行预测。预测结果会显示图像的类别及其概率。事实证明，训练的效果良好，能够准确的预测手写体数字图像所表示的数字和概率。
+Once the training is complete, you can use the code in `Test.java` to make predictions on new images. The prediction
+results will show the category of the image and its probability. The training proved to be good and was able to
+accurately predict the numbers and probabilities represented by the handwritten digit images.
 
 ![dataset](/doc/image/dataset.png)
 ![result](/doc/image/result.png)
 
+With these results, you can visualize how well the model performs on the handwritten digit recognition task.
 
-通过这些结果，您可以直观地看到模型在手写体数字识别任务上的表现。
+Translated with DeepL.com (free version)
