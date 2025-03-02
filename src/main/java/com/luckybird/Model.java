@@ -148,6 +148,11 @@ public class Model {
         System.out.println("模型训练完成");
     }
 
+    /**
+     * 使用该模型对图像进行预测，并输出结果
+     *
+     * @param imagePath 图像路径，用于预测该图像的类别
+     */
     void predict(String imagePath) {
         // 读取图像数据，并将其传入模型进行预测
         int[] rawData = Preprocess.image2Array(imagePath);
@@ -330,6 +335,15 @@ public class Model {
         Model model = gson.fromJson(new FileReader(MODEL_PATH + "/" + fileName), Model.class);
         System.out.println("模型已从文件：" + fileName + " 载入");
         return model;
+    }
+
+    /**
+     * 清除模型的输入参数
+     */
+    void clearParams() {
+        inputLayer = new double[INPUT_SIZE];
+        hiddenLayer = new double[HIDDEN_SIZE];
+        outputLayer = new double[OUTPUT_SIZE];
     }
 
 }
